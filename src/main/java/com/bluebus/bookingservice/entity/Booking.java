@@ -4,15 +4,20 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "booking")
 public class Booking implements Serializable {
     @Id
     @Column(name = "bookingnumber", nullable = false, length = Integer.MAX_VALUE)
-    private String bookingnumber;
+    private Integer bookingnumber;
 
     @Column(name = "busnumber", length = Integer.MAX_VALUE)
     private String busnumber;
@@ -32,62 +37,11 @@ public class Booking implements Serializable {
     @Column(name = "status", length = Integer.MAX_VALUE)
     private String status;
 
-    public String getBookingnumber() {
-        return bookingnumber;
-    }
+    @Column(name = "creationdate", length = Integer.MAX_VALUE)
+    private String creationdate;
 
-    public void setBookingnumber(String bookingnumber) {
-        this.bookingnumber = bookingnumber;
-    }
-
-    public String getBusnumber() {
-        return busnumber;
-    }
-
-    public void setBusnumber(String busnumber) {
-        this.busnumber = busnumber;
-    }
-
-    public String getBookingdate() {
-        return bookingdate;
-    }
-
-    public void setBookingdate(String bookingdate) {
-        this.bookingdate = bookingdate;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-    public String getNumberofseats() {
-        return numberofseats;
-    }
-
-    public void setNumberofseats(String numberofseats) {
-        this.numberofseats = numberofseats;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
+    @Column(name = "lastupdateddate", length = Integer.MAX_VALUE)
+    private String lastupdateddate;
     @Override
     public String toString() {
         return "{" +
@@ -98,6 +52,8 @@ public class Booking implements Serializable {
                 ", destination='" + destination + '\'' +
                 ", numberofseats='" + numberofseats + '\'' +
                 ", status='" + status + '\'' +
+                ", creationdate='" + creationdate + '\'' +
+                ", lastupdateddate='" + lastupdateddate + '\'' +
                 '}';
     }
 }
