@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.client.HttpClientErrorException;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,17 @@ public class MyGlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(HttpClientErrorException.Unauthorized.class)
+    public ResponseEntity<ErrorResponse> handleResourceNotFoundException(HttpClientErrorException.Unauthorized ex) {
+        ErrorResponse errorResponse = new ErrorResponse(
+                401,
+                ex.getMessage(),
+                "User Not Authorized to access this resource.",
+                LocalDateTime.now()
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(Exception.class)

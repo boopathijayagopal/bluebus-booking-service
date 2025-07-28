@@ -17,7 +17,7 @@ import java.io.Serializable;
 public class Booking implements Serializable {
     @Id
     @Column(name = "bookingnumber", nullable = false, length = Integer.MAX_VALUE)
-    private Integer bookingnumber;
+    private String bookingnumber;
 
     @Column(name = "busnumber", length = Integer.MAX_VALUE)
     private String busnumber;

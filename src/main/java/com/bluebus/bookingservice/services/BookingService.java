@@ -23,6 +23,9 @@ public class BookingService {
     @Autowired
     private JmsTemplate jmsTemplate;
 
+    @Autowired
+    private AuthValidationService authValidationService;
+
     public void createBooking(Booking booking) {
         LOGGER.info("Creating booking for bus number: {}", booking.getBusnumber());
         booking.setCreationdate(getDateTime());
@@ -33,9 +36,9 @@ public class BookingService {
         LOGGER.info("Booking created with booking number: {}", booking.getBookingnumber());
     }
 
-    public Optional<Booking> fetchBooking(Integer bookingNumber) {
+    public Optional<Booking> fetchBooking(String bookingNumber) {
         LOGGER.info("Fetching booking with booking number: {}", bookingNumber);
-        return Optional.ofNullable(bookingRepository.findById(bookingNumber).orElseThrow(() -> {
+        return Optional.ofNullable(bookingRepository.findById(Integer.valueOf(bookingNumber)).orElseThrow(() -> {
             LOGGER.error("Booking with booking number: {} not found", bookingNumber);
             return new ResourceNotFoundException("Booking not found");
         }));
@@ -70,5 +73,16 @@ public class BookingService {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         LocalDateTime localDateTime = LocalDateTime.now();
         return localDateTime.format(dateTimeFormatter);
+    }
+
+    public boolean validateToken(String token) {
+        LOGGER.info("Validating token: {}", token);
+        // For simplicity, let's assume a valid token is "valid-token"
+        if (token == null || !authValidationService.validateToken(token)) {
+            LOGGER.warn("Invalid token provided: {}", token);
+            return false;
+        }
+        LOGGER.info("Token is valid");
+        return true;
     }
 }
